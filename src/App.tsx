@@ -121,7 +121,7 @@ if (!gameOver) {
         ) : null}
       </header>
     </Wrapper>
-    <small className="copyright">App created by <a target="_blank" href="https://www.manu-sanchez.com"> Manu Sánchez </a> on a random evening</small>
+    <small className="copyright">App created by <a target="_blank" rel="nofollow noreferrer" href="https://www.manu-sanchez.com"> Manu Sánchez </a> on a random evening</small>
   </>
   );
 }
