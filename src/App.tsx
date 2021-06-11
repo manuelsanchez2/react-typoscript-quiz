@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { fetchQuizQuestions } from './API';
+// styles 
+import { GlobalStyle, Wrapper } from './App.styles';
 
 // Components 
 import QuestionCard from './components/QuestionCard';
 // Types 
 import { QuestionState, Difficulty } from './API';
+import Logo from './images/rolling-dices.svg'
 
 export type AnswerObject = {
   question: string;
@@ -33,6 +36,7 @@ function App() {
     setScore(0);
     setUserAnswers([]);
     setQuestionNumber(0);
+    setIsLastQuestion(false)
     setIsLoading(false)
   }
 
@@ -72,19 +76,28 @@ if (!gameOver) {
 
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>REACT QUIZZ</h1>
-        {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
+    <>
+    <GlobalStyle />
+    <Wrapper>
+      <header>
+        <img src={Logo} alt="logo"/>
+        <h1>THE FINAL QUIZ</h1>
+        {gameOver ? (
           <button className="start" onClick={startTrivia}>
             Start
           </button>
         ) : null}
-        {!gameOver ? (
-          <div className="score">Score: </div>
+        {!gameOver && userAnswers.length !== questionNumber + 1 ? (
+          <div className="score">Score: {score}</div>
+        ) : null}
+        {isLastQuestion && userAnswers.length === questionNumber + 1 ? (
+          <div className="score">Final score: {score}</div>
         ) : null}
         {isLoading ? (
-          <small>Loading questions...</small>
+          <small className="loading">Loading questions...</small>
+        ) : null}
+         {isLastQuestion && userAnswers.length !== questionNumber + 1? (
+          <div className="question-last">This is the final one, hope you know it!</div>
         ) : null}
         {!isLoading && !gameOver && (
           <QuestionCard 
@@ -101,11 +114,15 @@ if (!gameOver) {
             Next question
           </button>
         ) : null}
-        {isLastQuestion ? (
-          <div>This is the final one, hope you know it!</div>
+            {userAnswers.length === TOTAL_QUESTIONS ? (
+          <button className="start" onClick={startTrivia}>
+            Try again
+          </button>
         ) : null}
       </header>
-    </div>
+    </Wrapper>
+    <small className="copyright">App created by <a target="_blank" href="https://www.manu-sanchez.com"> Manu Sánchez </a> on a random evening</small>
+  </>
   );
 }
 
